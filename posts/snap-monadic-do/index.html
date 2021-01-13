@@ -76,16 +76,16 @@
 </div>
 <h3 id="feature-2-monadic-using-notation">Feature 2: Monadic “Using” Notation</h3>
 <p>I then introduced a block that allows its subexpressions to use a particular monad implicitly:</p>
-<p><img src="using-list.png" alt="The “using” block supplied with the user-defined List monad." />
+<p><img src="using-list.png" alt="The using block supplied with the user-defined List monad." />
 </p>
-<p>It works by setting the global variable <code>current monad</code> to the supplied monad, running the block’s subexpression, and resetting <code>current monad</code> to its previous value. For example, using this block, I implemented a <code>return</code> block that simply calls the <code>pure</code> function of <code>current monad</code> with a given argument:</p>
+<p>It works by setting the global variable <code>current monad</code> to the supplied monad, running the block’s subexpression, and resetting <code>current monad</code> to its previous value. For example, using this block, I implemented a <em>return</em> block that simply calls the <em>pure</em> function of <code>current monad</code> with a given argument:</p>
 <p><img src="return-def.png" alt="The return operation, which relies on current monad from a “using” block." />
 </p>
 <h3 id="feature-3-monadic-let-bindings">Feature 3: Monadic Let Bindings</h3>
 <p>Lastly, I introduced monadic let bindings akin to <code>x &lt;- mx</code> in Haskell and <code>let* x = mx in …</code> in OCaml, which are sugar for the monadic bind operation:</p>
 <p><img src="monadic-let.png" alt="The monadic let binding block." />
 </p>
-<p>These blocks only work in a “using” block because they rely on <code>current monad</code> being set to access its <em>bind</em> function. To implement this block, I used Snap<em>!</em>’s upvars, which, rather than <em>consuming</em> the value of a variable passed in by a user, instead <em>provides</em> a variable to the consumer of the block. This was a bit tricky because it mean that I had to rely on mutation to set this provided variable properly, which is not how typical <em>monadic do</em> implementations desugar. In particular, I treat the body of the monadic let binding as an uninterpreted expression and perform the following desugaring:</p>
+<p>These blocks only work in a <em>using</em> block because they rely on <code>current monad</code> being set to access its <em>bind</em> function. To implement this block, I used Snap<em>!</em>’s upvars, which—rather than <em>consuming</em> the value of a variable passed in by a user—<em>provide</em> a variable to the consumer of the block. This was a bit tricky because it meant that I had to rely on mutation to set this provided variable properly, which is not how typical <em>monadic do</em> implementations desugar. In particular, I treat the body of the monadic let binding as an uninterpreted expression and perform the following desugaring:</p>
 <div class="center">
 <p><code>let* x = mx in body</code> ↝ <code>mx &gt;&gt;= (fun output -&gt; (x := output; body))</code></p>
 </div>
@@ -101,7 +101,7 @@
 <div class="distribute">
 <p><img src="option-match.png" alt="Pattern matching for options." /> <img src="list-match.png" alt="Pattern matching for lists." /></p>
 </div>
-<p>And <em>pure</em> let bindings to complement monadic let bindings:</p>
+<p>And <em>pure let bindings</em> to complement monadic let bindings:</p>
 <p><img src="pure-let.png" alt="The pure let binding block." />
 </p>
 <h2 id="an-example">An Example</h2>
