@@ -57,7 +57,7 @@ a:hover {
   text-decoration: underline;
 }
 
-em {
+em, i {
   font-style: italic;
 }
 

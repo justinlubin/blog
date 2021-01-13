@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import Hakyll
+import Text.Pandoc
 
 import Data.List
 import Debug.Trace
@@ -68,6 +69,15 @@ postCtx =
     <> urlFieldWithoutIndex
     <> defaultContext
 
+postCompiler :: Compiler (Item String)
+postCompiler =
+  pandocCompilerWith
+    defaultHakyllReaderOptions
+    ( defaultHakyllWriterOptions
+        { writerNumberSections = True
+        }
+    )
+
 --------------------------------------------------------------------------------
 -- Main
 --------------------------------------------------------------------------------
@@ -85,14 +95,14 @@ main = hakyll $ do
   match "posts/*" $ do
       route (composeRoutes withoutDate withoutExtension)
       compile $
-        pandocCompiler
+        postCompiler
           >>= loadAndApplyTemplate "templates/default.html" postCtx
           >>= relativizeUrls
 
   match "drafts/*" $ do
     route withoutExtension
     compile $
-      pandocCompiler
+      postCompiler
         >>= loadAndApplyTemplate "templates/default.html" postCtx
         >>= relativizeUrls
 

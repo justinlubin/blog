@@ -42,7 +42,13 @@
             class="prose"
           $endif$>
       <header id="page-header">
-        <h2>$title$</h2>
+        <h2>
+          $if(fancyTitle)$
+            $fancyTitle$
+          $else$
+            $title$
+          $endif$
+        </h2>
         $if(date)$
           <time>$date$</time>
         $endif$
