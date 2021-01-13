@@ -10,4 +10,4 @@ repl:
 publish:
 	make clean && make all && git checkout gh-pages && ./copy.sh && \
 		git add -A && git commit -m "Pull updates from 'main'" && git push && \
-		git checkout master
+		git checkout main
