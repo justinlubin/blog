@@ -84,17 +84,17 @@ em, i {
 #blog-footer {
   color: var(--fade-color);
   padding-bottom: var(--wide-spacing);
-  line-height: 1.5;
 }
 
 /* Main */
 
 main {
   margin-bottom: var(--wide-spacing);
+  line-height: 1.4;
 }
 
 main header {
-  margin-bottom: var(--wide-spacing);
+  margin-bottom: var(--normal-spacing);
 }
 
 main header h1 {
@@ -132,7 +132,6 @@ article > * {
 }
 
 article {
-  line-height: 1.4;
   text-align: justify;
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
@@ -143,7 +142,7 @@ article {
 
 article h2,
 article h3 {
-  margin-top: var(--wide-spacing);
+  margin-top: var(--normal-spacing);
 }
 
 article h2 {
