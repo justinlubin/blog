@@ -69,13 +69,13 @@ operate on arbitrary monads using these getters:
 I then introduced a block that allows its subexpressions to use a particular
 monad implicitly:
 
-![The "using" block supplied with the user-defined List monad.](using-list.png)\
+![The *using* block supplied with the user-defined List monad.](using-list.png)\
 
 It works by setting the global variable `current monad` to the supplied monad,
 running the block's subexpression, and resetting `current monad` to its previous
 value.
-For example, using this block, I implemented a `return` block that simply
-calls the `pure` function of `current monad` with a given argument:
+For example, using this block, I implemented a *return* block that simply
+calls the *pure* function of `current monad` with a given argument:
 
 ![The *return* operation, which relies on `current monad` from a "using"
 block.](return-def.png)\
@@ -87,12 +87,12 @@ and `let* x = mx in …` in OCaml, which are sugar for the monadic bind operatio
 
 ![The monadic let binding block.](monadic-let.png)\
 
-These blocks only work in a "using" block because they rely on `current monad`
+These blocks only work in a *using* block because they rely on `current monad`
 being set to access its *bind* function.
-To implement this block, I used Snap*!*'s upvars, which, rather than *consuming*
-the value of a variable passed in by a user, instead *provides* a variable
+To implement this block, I used Snap*!*'s upvars, which---rather than
+*consuming* the value of a variable passed in by a user---*provide* a variable
 to the consumer of the block.
-This was a bit tricky because it mean that I had to rely on mutation to set this
+This was a bit tricky because it meant that I had to rely on mutation to set this
 provided variable properly, which is not how typical *monadic do*
 implementations desugar.
 In particular, I treat the body of the monadic let
@@ -124,7 +124,7 @@ As well as pattern matching for options and lists:
 ![Pattern matching for lists.](list-match.png)
 :::
 
-And *pure* let bindings to complement monadic let bindings:
+And *pure let bindings* to complement monadic let bindings:
 
 ![The *pure let binding* block.](pure-let.png)\
 
