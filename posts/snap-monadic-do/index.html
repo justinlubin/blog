@@ -54,7 +54,7 @@
         
       </header>
       <p><a href="https://snap.berkeley.edu/">Snap<em>!</em></a> is one of the most widely-used programming languages whose primary editor is entirely block-based. For a while, I was skeptical of its expressive capabilities, but, after finally playing around with it myself, I realized that it has support for some extremely expressive constructs that allow for embedded domain-specific languages. As part of <a href="https://schasins.com/">Sarah Chasins</a>’s <a href="http://schasins.com/cs294-usable-programming-2020/">CS 294: Building User-Centered Programming Tools</a> class, I implemented a <em>monadic do</em> construct in Snap<em>!</em>, similar to <a href="https://en.wikibooks.org/wiki/Haskell/do_notation">monadic do notation in Haskell</a> and <a href="https://caml.inria.fr/pub/docs/manual-ocaml/bindingops.html">binding operators in OCaml</a>.</p>
-<p>I explain more about how this construct works in the rest of this post, but if you want to mess around with it live, you can do so <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=justinlubin&amp;ProjectName=monadic-do&amp;editMode&amp;noRun">here</a>!</p>
+<p>I explain more about how this construct works in the rest of this post (along with an example), but if you want to mess around with it live, you can do so <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=justinlubin&amp;ProjectName=monadic-do&amp;editMode&amp;noRun">here</a>!</p>
 <h2 id="implementation">Implementation</h2>
 <p>To implement a <em>monadic do</em> construct, I had to implement three main features, each of which builds off the previous.</p>
 <h3 id="feature-1-functor-and-monad-typeclasses">Feature 1: Functor and Monad Typeclasses</h3>
