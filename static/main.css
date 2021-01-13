@@ -61,39 +61,45 @@ em, i {
   font-style: italic;
 }
 
-/* Primary Header */
+/* Blog Header */
 
-#primary-header {
+#blog-header {
   margin-bottom: var(--wide-spacing);
   text-align: center;
 }
 
-#primary-header h1 {
+#blog-header h1 {
   font-size: 3em;
   margin-bottom: var(--normal-spacing);
 }
 
-#primary-header h1 a {
+#blog-header h1 a {
   color: inherit;
 }
 
-/* Main Content */
+/* Blog Footer */
+
+#blog-footer {
+  color: var(--fade-color);
+  padding-bottom: var(--wide-spacing);
+  line-height: 1.5;
+}
+
+/* Main */
 
 main {
   margin-bottom: var(--wide-spacing);
 }
 
-/* Page Header */
-
-#page-header {
+main > header {
   margin-bottom: var(--wide-spacing);
 }
 
-#page-header h2 {
+main > header h1 {
   font-size: 2em;
 }
 
-#page-header time {
+main > header time {
   display: block;
   margin-top: var(--narrow-spacing);
   font-style: italic;
@@ -117,51 +123,56 @@ main {
   order: 2;
 }
 
-/* Prose */
+/* Article */
 
-.prose > * {
+article > * {
   margin-bottom: var(--normal-spacing);
 }
 
-.prose p {
+article {
   line-height: 1.4;
 }
 
-.prose h3 {
+article h2,
+article h3 {
   margin-top: var(--wide-spacing);
+}
+
+article h2 {
   font-size: 1.5em;
 }
 
-.prose h4 {
-  margin-top: var(--wide-spacing);
+article h3 {
   font-size: 1.2em;
 }
 
-.prose ul {
+article ul {
   list-style-type: disc;
   list-style-position: outside;
   margin-left: 30px;
 }
 
-.prose ul li {
+article ul li {
   margin-bottom: var(--narrow-spacing);
   position: relative;
 }
 
-.prose ul li:last-child {
+article ul li:last-child {
   margin-bottom: 0;
 }
 
-.prose ul ul {
+article ul ul {
   margin-top: var(--narrow-spacing);
 }
 
-.prose blockquote {
+article blockquote {
   margin-left: 30px;
   padding: 5px;
   padding-left: 10px;
   border-left: 5px solid var(--accent-color);
 }
+
+/* Primary Footer */
 
 /* Responsive */
 
@@ -180,11 +191,4 @@ main {
     display: block;
     margin-bottom: var(--narrow-spacing);
   }
-}
-
-/* Primary Footer */
-
-#primary-footer {
-  color: var(--fade-color);
-  padding-bottom: var(--wide-spacing);
 }

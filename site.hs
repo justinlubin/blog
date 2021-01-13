@@ -3,10 +3,10 @@
 import Hakyll
 import Text.Pandoc
 
-import Data.List
-import Debug.Trace
-
 import Control.Arrow ((>>>), (<<<))
+
+import qualified Data.List as List
+import qualified Text.Pandoc.Shared (substitute)
 
 -- Helpful resource:
 --   http://aherrmann.github.io/programming/2016/01/31/jekyll-style-urls-with-hakyll/index.html
@@ -21,7 +21,7 @@ x |> f =
 
 chopEnding :: Eq a => [a] -> [a] -> [a]
 chopEnding ending xs =
-  if isSuffixOf ending xs then
+  if List.isSuffixOf ending xs then
     take (length xs - length ending) xs
   else
     xs
@@ -69,14 +69,23 @@ postCtx =
     <> urlFieldWithoutIndex
     <> defaultContext
 
+shiftHeadings :: String -> String
+shiftHeadings =
+  Text.Pandoc.Shared.substitute "h5" "h6"
+    >>> Text.Pandoc.Shared.substitute "h4" "h5"
+    >>> Text.Pandoc.Shared.substitute "h3" "h4"
+    >>> Text.Pandoc.Shared.substitute "h2" "h3"
+    >>> Text.Pandoc.Shared.substitute "h1" "h2"
+
 postCompiler :: Compiler (Item String)
 postCompiler =
-  pandocCompilerWith
-    defaultHakyllReaderOptions
-    ( defaultHakyllWriterOptions
-        { writerNumberSections = True
-        }
-    )
+  fmap (fmap shiftHeadings) $
+    pandocCompilerWith
+      defaultHakyllReaderOptions
+      ( defaultHakyllWriterOptions
+          { writerNumberSections = True
+          }
+      )
 
 --------------------------------------------------------------------------------
 -- Main
