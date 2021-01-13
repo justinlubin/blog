@@ -85,6 +85,7 @@ main = hakyll $ do
     compile $
       postCompiler
         >>= loadAndApplyTemplate "templates/main.html" postContext
+        >> relativizeUrls
 
   match ("posts/*/*" .&&. complement "posts/*/index.md") $ do
     route withoutDate
@@ -96,6 +97,7 @@ main = hakyll $ do
       getResourceBody
         >>= applyAsTemplate archiveContext
         >>= loadAndApplyTemplate "templates/main.html" archiveContext
+        >> relativizeUrls
 
   match "templates/*" $
     compile templateBodyCompiler
