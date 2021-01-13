@@ -40,8 +40,9 @@ body {
   margin: auto;
 }
 
-pre {
+code {
   font-family: "Inconsolata", monospace;
+  font-size: 17px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -132,6 +133,12 @@ article > * {
 
 article {
   line-height: 1.4;
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -o-hyphens: auto;
+  hyphens: auto;
 }
 
 article h2,
@@ -175,15 +182,29 @@ article blockquote {
 
 article figure {
   margin: var(--wide-spacing);
+  text-align: center;
 }
 
 article figure img {
-  width: 100%;
+  max-width: 100%;
 }
 
 article figcaption {
+  text-align: left;
+  padding: 10px;
   border: 1px solid var(--accent-color);
-  padding: 5px;
+}
+
+article p code,
+article figcaption code
+{
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+
+article .center {
+  text-align: center;
 }
 
 /* Primary Footer */
