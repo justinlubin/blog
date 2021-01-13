@@ -1,12 +1,15 @@
 <ol class="post-list">
   $for(posts)$
-    <li>
-      $if(fancyTitle)$
-        <a href="$url$">$fancyTitle$</a>
-      $else$
-        <a href="$url$">$title$</a>
-      $endif$
-      <time>$date$</time>
-    </li>
+    $if(draft)$
+    $else$
+      <li>
+        $if(fancyTitle)$
+          <a href="$url$">$fancyTitle$</a>
+        $else$
+          <a href="$url$">$title$</a>
+        $endif$
+        <time>$date$</time>
+      </li>
+    $endif$
   $endfor$
 </ol>

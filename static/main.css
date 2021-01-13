@@ -4,8 +4,9 @@
   --bg-color: #f2edea;
   --text-color: #000000;
   --accent-color: #ab3645;
+  --accent-color-translucent: rgba(171, 54, 69, 0.25);
   --fade-color: #ada2a4;
-  --link-color: #477670;
+  /* --link-color: #477670; */
 
   --narrow-spacing: 10px;
   --normal-spacing: 20px;
@@ -49,12 +50,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: var(--link-color);
-  text-decoration: none;
+  color: inherit;
+  text-decoration: underline;
 }
 
 a:hover {
-  text-decoration: underline;
+  background-color: var(--accent-color-translucent);
 }
 
 em, i {
@@ -91,15 +92,15 @@ main {
   margin-bottom: var(--wide-spacing);
 }
 
-main > header {
+main header {
   margin-bottom: var(--wide-spacing);
 }
 
-main > header h1 {
+main header h1 {
   font-size: 2em;
 }
 
-main > header time {
+main header time {
   display: block;
   margin-top: var(--narrow-spacing);
   font-style: italic;
@@ -170,6 +171,19 @@ article blockquote {
   padding: 5px;
   padding-left: 10px;
   border-left: 5px solid var(--accent-color);
+}
+
+article figure {
+  margin: var(--wide-spacing);
+}
+
+article figure img {
+  width: 100%;
+}
+
+article figcaption {
+  border: 1px solid var(--accent-color);
+  padding: 5px;
 }
 
 /* Primary Footer */

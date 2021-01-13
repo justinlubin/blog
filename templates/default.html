@@ -4,9 +4,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    $if(post)$
+      <base href="$url$/">
+    $endif$
+
     <title>
       $title$ | JITCompiled
     </title>
+
     <link rel="preconnect"
           href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Inconsolata:wght@400;700&display=swap"
