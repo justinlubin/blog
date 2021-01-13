@@ -89,6 +89,13 @@ main = hakyll $ do
           >>= loadAndApplyTemplate "templates/default.html" postCtx
           >>= relativizeUrls
 
+  match "drafts/*" $ do
+    route withoutExtension
+    compile $
+      pandocCompiler
+        >>= loadAndApplyTemplate "templates/default.html" postCtx
+        >>= relativizeUrls
+
   match "index.html" $ do
     route idRoute
     compile $ do
