@@ -187,11 +187,8 @@ article figure {
 
 article img {
   max-width: 100%;
-}
-
-article p img {
-  display: block;
-  margin: auto;
+  height: auto;
+  align-self: center;
 }
 
 article figcaption {
@@ -210,6 +207,26 @@ article figcaption code
 
 article .center {
   text-align: center;
+}
+
+article .distribute {
+  width: 100%;
+}
+
+article > p img {
+  display: block;
+  margin: auto;
+}
+
+article .distribute p {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: calc(0px - var(--normal-spacing));
+}
+
+article .distribute p > * {
+  margin-bottom: var(--normal-spacing);
 }
 
 /* Responsive */

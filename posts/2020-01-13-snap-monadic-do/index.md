@@ -28,14 +28,13 @@ each of which builds off the previous.
 
 ## Feature 1: Functor and Monad Typeclasses
 
-First, I introduced a blocks that allows for the definition of "anonymous"
-functor insances:
+First, I introduced blocks that allow for the definition of "anonymous"
+functor and monad instances:
 
-![The anonymous functor typeclass definition block.](functor.png)\
-
-As well as one for anonymous monad instances:
-
-![This anonymous monad typeclass definition block.](monad.png)\
+::: {.distribute}
+![The anonymous functor typeclass definition block.](functor.png)
+![This anonymous monad typeclass definition block.](monad.png)
+:::
 
 These blocks can be used to create typeclass instances that can be assigned to
 a variable using a normal Snap*!* *set* block:
@@ -47,25 +46,34 @@ Under the hood, I represent typeclasses as a product of functions, akin to
 I also provide "getter" blocks that simply return the correct function in a
 given typeclass dictionary:
 
-![An example "getter" block that returns the map function for the user-defined
-List functor.](map.png)\
+::: {.distribute}
+![A "getter" block that returns the *map* function for the user-defined
+List functor.](map.png)
+![A "getter" block that returns the *pure* function for the user-defined
+List monad.](pure.png)
+![A "getter" block that returns the functor for the user-defined
+List monad.](functor-of.png)
+![A "getter" block that returns the *join* function for the user-defined
+List monad.](join.png)
+:::
 
 As well as "typeclass functions" such as *bind* for the monad typeclass that
 operate on arbitrary monads using these getters:
 
+::: {.distribute}
 ![The *monadic bind* operation using typeclass getters.](bind.png)\
+:::
 
 ## Feature 2: Monadic "Using" Notation
 
 I then introduced a block that allows its subexpressions to use a particular
 monad implicitly:
 
-It works by setting the global variable `current monad` to the supplied monad,
-running the block's subexpression, and resetting `current monad` to its previous
-value:
-
 ![The "using" block supplied with the user-defined List monad.](using-list.png)\
 
+It works by setting the global variable `current monad` to the supplied monad,
+running the block's subexpression, and resetting `current monad` to its previous
+value.
 For example, using this block, I implemented a `return` block that simply
 calls the `pure` function of `current monad` with a given argument:
 
@@ -101,16 +109,20 @@ desugaring.](monadic-let-def.png)\
 
 ## Conveniences
 
-I also introduced an "option" (i.e. explicitly nullable) type implemented
+I also introduced an "option" (i.e. nullable) type implemented
 under-the-hood as a singleton list:
 
-![Optional (i.e., nullable) values.](some-3.png)\
+::: {.distribute}
+![A missing value.](none.png)
+![A present value (the number 3).](some-3.png)
+:::
 
-Pattern matching for options and lists:
+As well as pattern matching for options and lists:
 
-![Pattern matching for options.](option-match.png)\
-
-![Pattern matching for lists.](list-match.png)\
+::: {.distribute}
+![Pattern matching for options.](option-match.png)
+![Pattern matching for lists.](list-match.png)
+:::
 
 And *pure* let bindings to complement monadic let bindings:
 
