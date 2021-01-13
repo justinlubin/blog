@@ -54,6 +54,7 @@ shiftHeadings =
     >>> Text.Pandoc.Shared.substitute "h3" "h4"
     >>> Text.Pandoc.Shared.substitute "h2" "h3"
     >>> Text.Pandoc.Shared.substitute "h1" "h2"
+    >>> Text.Pandoc.Shared.substitute "<br />" ""
 
 postCompiler :: Compiler (Item String)
 postCompiler =
@@ -83,7 +84,7 @@ main = hakyll $ do
     route (composeRoutes withoutDate (setExtension "html"))
     compile $
       postCompiler
-        >>= loadAndApplyTemplate "templates/default.html" postContext
+        >>= loadAndApplyTemplate "templates/main.html" postContext
 
   match ("posts/*/*" .&&. complement "posts/*/index.md") $ do
     route withoutDate
@@ -94,7 +95,7 @@ main = hakyll $ do
     compile $
       getResourceBody
         >>= applyAsTemplate archiveContext
-        >>= loadAndApplyTemplate "templates/default.html" archiveContext
+        >>= loadAndApplyTemplate "templates/main.html" archiveContext
 
   match "templates/*" $
     compile templateBodyCompiler

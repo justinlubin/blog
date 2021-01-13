@@ -31,16 +31,16 @@ each of which builds off the previous.
 First, I introduced a blocks that allows for the definition of "anonymous"
 functor insances:
 
-![The anonymous functor typeclass definition block.](functor.png)
+![The anonymous functor typeclass definition block.](functor.png)\
 
 As well as one for anonymous monad instances:
 
-![This anonymous monad typeclass definition block.](monad.png)
+![This anonymous monad typeclass definition block.](monad.png)\
 
 These blocks can be used to create typeclass instances that can be assigned to
 a variable using a normal Snap*!* *set* block:
 
-![Functor and monad typeclass instances of Option and List.](instances.png)
+![Functor and monad typeclass instances of Option and List.](instances.png)\
 
 Under the hood, I represent typeclasses as a product of functions, akin to
 [dictionary passing](http://okmij.org/ftp/Computation/typeclass.html#dict).
@@ -48,12 +48,12 @@ I also provide "getter" blocks that simply return the correct function in a
 given typeclass dictionary:
 
 ![An example "getter" block that returns the map function for the user-defined
-List functor.](map.png)
+List functor.](map.png)\
 
 As well as "typeclass functions" such as *bind* for the monad typeclass that
 operate on arbitrary monads using these getters:
 
-![The *monadic bind* operation using typeclass getters.](bind.png)
+![The *monadic bind* operation using typeclass getters.](bind.png)\
 
 ## Feature 2: Monadic "Using" Notation
 
@@ -64,20 +64,20 @@ It works by setting the global variable `current monad` to the supplied monad,
 running the block's subexpression, and resetting `current monad` to its previous
 value:
 
-![The "using" block supplied with the user-defined List monad.](using-list.png)
+![The "using" block supplied with the user-defined List monad.](using-list.png)\
 
 For example, using this block, I implemented a `return` block that simply
 calls the `pure` function of `current monad` with a given argument:
 
 ![The *return* operation, which relies on `current monad` from a "using"
-block.](return-def.png)
+block.](return-def.png)\
 
 ## Feature 3: Monadic Let Bindings
 
 Lastly, I introduced monadic let bindings akin to `x <- mx` in Haskell
 and `let* x = mx in …` in OCaml, which are sugar for the monadic bind operation:
 
-![The monadic let binding block.](monadic-let.png)
+![The monadic let binding block.](monadic-let.png)\
 
 These blocks only work in a "using" block because they rely on `current monad`
 being set to access its *bind* function.
@@ -97,24 +97,24 @@ binding as an uninterpreted expression and perform the following desugaring:
 Which, in Snap*!*, looks like this:
 
 ![The *monadic let binding* block definition and
-desugaring.](monadic-let-def.png)
+desugaring.](monadic-let-def.png)\
 
 ## Conveniences
 
 I also introduced an "option" (i.e. explicitly nullable) type implemented
 under-the-hood as a singleton list:
 
-![Optional (i.e., nullable) values.](some-3.png)
+![Optional (i.e., nullable) values.](some-3.png)\
 
 Pattern matching for options and lists:
 
-![Pattern matching for options.](option-match.png)
+![Pattern matching for options.](option-match.png)\
 
-![Pattern matching for lists.](list-match.png)
+![Pattern matching for lists.](list-match.png)\
 
 And *pure* let bindings to complement monadic let bindings:
 
-![The *pure let binding* block.](pure-let.png)
+![The *pure let binding* block.](pure-let.png)\
 
 # An Example
 
@@ -124,9 +124,9 @@ nondeterministic choice), I implemented a simple procedure that
 (purely) sets `y` to twice the value of `x`, then "nondeterministically" chooses
 `z` from the list `[1, 2, …, y]`, and finally returns the triple `(x, y, z)`:
 
-![An example do-notation program using the list monad.](list-monad-ex.png)
+![An example do-notation program using the list monad.](list-monad-ex.png)\
 
 When run, this program returns all possible outputs of the procedure just
 described:
 
-![The results of running the described program.](list-monad-ex-out.png)
+![The results of running the described program.](list-monad-ex-out.png)\

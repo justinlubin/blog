@@ -181,12 +181,17 @@ article blockquote {
 }
 
 article figure {
-  margin: var(--wide-spacing);
+  margin: var(--normal-spacing) var(--wide-spacing);
   text-align: center;
 }
 
-article figure img {
+article img {
   max-width: 100%;
+}
+
+article p img {
+  display: block;
+  margin: auto;
 }
 
 article figcaption {
@@ -206,8 +211,6 @@ article figcaption code
 article .center {
   text-align: center;
 }
-
-/* Primary Footer */
 
 /* Responsive */
 
