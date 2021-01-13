@@ -17,8 +17,8 @@ class, I implemented a *monadic do* construct in Snap*!*, similar to
 and
 [binding operators in OCaml](https://caml.inria.fr/pub/docs/manual-ocaml/bindingops.html).
 
-I explain more about how this construct works in the rest of this post, but if
-you want to mess around with it live, you can do so
+I explain more about how this construct works in the rest of this post (along
+with an example), but if you want to mess around with it live, you can do so
 [here](https://snap.berkeley.edu/snap/snap.html#present:Username=justinlubin&ProjectName=monadic-do&editMode&noRun)!
 
 # Implementation
