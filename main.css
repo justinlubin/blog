@@ -153,18 +153,28 @@ article h3 {
   font-size: 1.2em;
 }
 
-article ul {
-  list-style-type: disc;
+article ul,
+article ol {
   list-style-position: outside;
   margin-left: 30px;
 }
 
-article ul li {
-  margin-bottom: var(--narrow-spacing);
-  position: relative;
+article ul {
+  list-style-type: disc;
 }
 
-article ul li:last-child {
+article ol {
+  list-style-type: decimal;
+}
+
+article ul li,
+article ol li {
+  margin-bottom: var(--narrow-spacing);
+  padding-left: 10px;
+}
+
+article ul li:last-child,
+article ol li:last-child {
   margin-bottom: 0;
 }
 

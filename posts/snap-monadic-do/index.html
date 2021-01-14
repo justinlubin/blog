@@ -53,7 +53,7 @@
           <time>January 13, 2020</time>
         
       </header>
-      <p><a href="https://snap.berkeley.edu/">Snap<em>!</em></a> is one of the most widely-used programming languages whose primary editor is entirely block-based. For a while, I was skeptical of its expressive capabilities, but, after finally playing around with it myself, I realized that it has support for some extremely expressive constructs that allow for embedded domain-specific languages. As part of <a href="https://schasins.com/">Sarah Chasins</a>’s <a href="http://schasins.com/cs294-usable-programming-2020/">CS 294: Building User-Centered Programming Tools</a> class, I implemented a <em>monadic do</em> construct in Snap<em>!</em>, similar to <a href="https://en.wikibooks.org/wiki/Haskell/do_notation">monadic do notation in Haskell</a> and <a href="https://caml.inria.fr/pub/docs/manual-ocaml/bindingops.html">binding operators in OCaml</a>.</p>
+      <p><a href="https://snap.berkeley.edu/">Snap<em>!</em></a> is one of the most widely-used programming languages whose primary editor is entirely block-based. For a while, I was skeptical of its expressive capabilities, but, after finally playing around with it myself, I realized that it has support for some extremely expressive constructs that enable embedded domain-specific languages. As part of <a href="https://schasins.com/">Sarah Chasins</a>’s <a href="http://schasins.com/cs294-usable-programming-2020/">CS 294: Building User-Centered Programming Tools</a> class, I implemented a <em>monadic do</em> construct in Snap<em>!</em>, similar to <a href="https://en.wikibooks.org/wiki/Haskell/do_notation">monadic do notation in Haskell</a> and <a href="https://caml.inria.fr/pub/docs/manual-ocaml/bindingops.html">binding operators in OCaml</a>.</p>
 <p>I explain more about how this construct works in the rest of this post (along with an example), but if you want to mess around with it live, you can do so <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=justinlubin&amp;ProjectName=monadic-do&amp;editMode&amp;noRun">here</a>!</p>
 <h2 id="implementation">Implementation</h2>
 <p>To implement a <em>monadic do</em> construct, I had to implement three main features, each of which builds off the previous.</p>
@@ -69,13 +69,14 @@
 <div class="distribute">
 <p><img src="map.png" alt="A “getter” block that returns the map function for the user-defined List functor." /> <img src="pure.png" alt="A “getter” block that returns the pure function for the user-defined List monad." /> <img src="functor-of.png" alt="A “getter” block that returns the functor for the user-defined List monad." /> <img src="join.png" alt="A “getter” block that returns the join function for the user-defined List monad." /></p>
 </div>
-<p>As well as “typeclass functions” such as <em>bind</em> for the monad typeclass that operate on arbitrary monads using these getters:</p>
+<p>Using these getters, I implemented some “typeclass functions” such as <em>bind</em> for for arbitrary monads:</p>
 <div class="distribute">
 <p><img src="bind.png" alt="The monadic bind operation using typeclass getters." />
 </p>
 </div>
+<p>Unfortunately, these functions require explicitly passing in the monad as an argument. Let’s get around that limitation with this next feature!</p>
 <h3 id="feature-2-monadic-using-notation">Feature 2: Monadic “Using” Notation</h3>
-<p>I then introduced a block that allows its subexpressions to use a particular monad implicitly:</p>
+<p>As the next step toward a nice <em>monadic do</em> construct, I introduced a block that allows its subexpressions to use a particular monad <em>implicitly</em>:</p>
 <p><img src="using-list.png" alt="The using block supplied with the user-defined List monad." />
 </p>
 <p>It works by setting the global variable <code>current monad</code> to the supplied monad, running the block’s subexpression, and resetting <code>current monad</code> to its previous value. For example, using this block, I implemented a <em>return</em> block that simply calls the <em>pure</em> function of <code>current monad</code> with a given argument:</p>
@@ -85,7 +86,9 @@
 <p>Lastly, I introduced monadic let bindings akin to <code>x &lt;- mx</code> in Haskell and <code>let* x = mx in …</code> in OCaml, which are sugar for the monadic bind operation:</p>
 <p><img src="monadic-let.png" alt="The monadic let binding block." />
 </p>
-<p>These blocks only work in a <em>using</em> block because they rely on <code>current monad</code> being set to access its <em>bind</em> function. To implement this block, I used Snap<em>!</em>’s upvars, which—rather than <em>consuming</em> the value of a variable passed in by a user—<em>provide</em> a variable to the consumer of the block. This was a bit tricky because it meant that I had to rely on mutation to set this provided variable properly, which is not how typical <em>monadic do</em> implementations desugar. In particular, I treat the body of the monadic let binding as an uninterpreted expression and perform the following desugaring:</p>
+<p>These blocks only work in a <em>using</em> block because they rely on <code>current monad</code> being set properly (so that they can access its <em>bind</em> function).</p>
+<p>To implement this block, I used an <em>upvar</em>, a surprisingly versatile Snap<em>!</em> construct that, rather than <em>consuming</em> the value of a variable passed in by a user, instead <em>provides</em> a variable to the user. (As an aside, I’ve found upvars to be a fantastic use of interesting/atypical programming language theory tailored to a specific domain that actually improves the developer experience.)</p>
+<p>Using an upvar turned out to be a bit tricky in this context because it meant that I had to rely on mutation to set this provided variable properly, which is not how typical <em>monadic do</em> implementations desugar. In particular, I treat the body of the monadic let binding as an uninterpreted expression and perform the following desugaring:</p>
 <div class="center">
 <p><code>let* x = mx in body</code> ↝ <code>mx &gt;&gt;= (fun output -&gt; (x := output; body))</code></p>
 </div>
@@ -93,19 +96,25 @@
 <p><img src="monadic-let-def.png" alt="The monadic let binding block definition and desugaring." />
 </p>
 <h3 id="conveniences">Conveniences</h3>
-<p>I also introduced an “option” (i.e. nullable) type implemented under-the-hood as a singleton list:</p>
+<p>To make the <em>monadic do</em> syntax more meaningful to work with, I introduced an “option” (i.e. nullable) type implemented under-the-hood as a singleton list:</p>
 <div class="distribute">
 <p><img src="none.png" alt="A missing value." /> <img src="some-3.png" alt="A present value (the number 3)." /></p>
 </div>
-<p>As well as pattern matching for options and lists:</p>
+<p>I also implemented pattern matching for options and lists:</p>
 <div class="distribute">
 <p><img src="option-match.png" alt="Pattern matching for options." /> <img src="list-match.png" alt="Pattern matching for lists." /></p>
 </div>
-<p>And <em>pure let bindings</em> to complement monadic let bindings:</p>
+<p>And, finally, I implemented <em>pure let bindings</em> to complement monadic let bindings:</p>
 <p><img src="pure-let.png" alt="The pure let binding block." />
 </p>
 <h2 id="an-example">An Example</h2>
-<p>Using the list monad (which simulates a collection semantics for nondeterministic choice), I implemented a simple procedure that “nondeterministically” chooses a variable <code>x</code> from the list <code>[4, 2, 3]</code>, then (purely) sets <code>y</code> to twice the value of <code>x</code>, then “nondeterministically” chooses <code>z</code> from the list <code>[1, 2, …, y]</code>, and finally returns the triple <code>(x, y, z)</code>:</p>
+<p>Using the list monad (which simulates a collection semantics for nondeterministic choice), I implemented a simple procedure that</p>
+<ol type="1">
+<li>“Nondeterministically” chooses a variable <code>x</code> from the list <code>[4, 2, 3]</code>, then</li>
+<li>(Purely) sets <code>y</code> to twice the value of <code>x</code>, then</li>
+<li>“Nondeterministically” chooses <code>z</code> from the list <code>[1, 2, …, y]</code>, and finally</li>
+<li>Returns the triple <code>(x, y, z)</code>:</li>
+</ol>
 <p><img src="list-monad-ex.png" alt="An example do-notation program using the list monad." />
 </p>
 <p>When run, this program returns all possible outputs of the procedure just described:</p>
