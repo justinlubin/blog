@@ -7,7 +7,7 @@ fancyTitle: 'Do as I Say: <i>Monadic Do</i> Notation in Snap<i>!</i>'
 languages whose primary editor is entirely block-based.
 For a while, I was skeptical of its expressive capabilities,
 but, after finally playing around with it myself, I realized that it has support
-for some extremely expressive constructs that allow for embedded domain-specific
+for some extremely expressive constructs that enable embedded domain-specific
 languages.
 As part of
 [Sarah Chasins](https://schasins.com/)'s
@@ -57,17 +57,20 @@ List monad.](functor-of.png)
 List monad.](join.png)
 :::
 
-As well as "typeclass functions" such as *bind* for the monad typeclass that
-operate on arbitrary monads using these getters:
+Using these getters, I implemented some "typeclass functions" such as *bind* for
+for arbitrary monads:
 
 ::: {.distribute}
 ![The *monadic bind* operation using typeclass getters.](bind.png)\
 :::
 
+Unfortunately, these functions require explicitly passing in the monad as an
+argument. Let's get around that limitation with this next feature!
+
 ## Feature 2: Monadic "Using" Notation
 
-I then introduced a block that allows its subexpressions to use a particular
-monad implicitly:
+As the next step toward a nice *monadic do* construct, I introduced a block that
+allows its subexpressions to use a particular monad *implicitly*:
 
 ![The *using* block supplied with the user-defined List monad.](using-list.png)\
 
@@ -88,15 +91,20 @@ and `let* x = mx in …` in OCaml, which are sugar for the monadic bind operatio
 ![The monadic let binding block.](monadic-let.png)\
 
 These blocks only work in a *using* block because they rely on `current monad`
-being set to access its *bind* function.
-To implement this block, I used Snap*!*'s upvars, which---rather than
-*consuming* the value of a variable passed in by a user---*provide* a variable
-to the consumer of the block.
-This was a bit tricky because it meant that I had to rely on mutation to set this
-provided variable properly, which is not how typical *monadic do*
-implementations desugar.
-In particular, I treat the body of the monadic let
-binding as an uninterpreted expression and perform the following desugaring:
+being set properly (so that they can access its *bind* function).
+
+To implement this block, I used an *upvar*, a surprisingly versatile Snap*!*
+construct that, rather than *consuming* the value of a variable passed in by a
+user, instead *provides* a variable to the user.
+(As an aside, I've found upvars to be a fantastic use of interesting/atypical
+programming language theory tailored to a specific domain that actually improves
+the developer experience.)
+
+Using an upvar turned out to be a bit tricky in this context because it meant
+that I had to rely on mutation to set this provided variable properly, which is
+not how typical *monadic do* implementations desugar.  In particular, I treat
+the body of the monadic let binding as an uninterpreted expression and perform
+the following desugaring:
 
 ::: {.center}
 `let* x = mx in body` ↝ `mx >>= (fun output -> (x := output; body))`
@@ -109,22 +117,23 @@ desugaring.](monadic-let-def.png)\
 
 ## Conveniences
 
-I also introduced an "option" (i.e. nullable) type implemented
-under-the-hood as a singleton list:
+To make the *monadic do* syntax more meaningful to work with, I introduced an
+"option" (i.e. nullable) type implemented under-the-hood as a singleton list:
 
 ::: {.distribute}
 ![A missing value.](none.png)
 ![A present value (the number 3).](some-3.png)
 :::
 
-As well as pattern matching for options and lists:
+I also implemented pattern matching for options and lists:
 
 ::: {.distribute}
 ![Pattern matching for options.](option-match.png)
 ![Pattern matching for lists.](list-match.png)
 :::
 
-And *pure let bindings* to complement monadic let bindings:
+And, finally, I implemented *pure let bindings* to complement monadic let
+bindings:
 
 ![The *pure let binding* block.](pure-let.png)\
 
@@ -132,9 +141,11 @@ And *pure let bindings* to complement monadic let bindings:
 
 Using the list monad (which simulates a collection semantics for
 nondeterministic choice), I implemented a simple procedure that
-"nondeterministically" chooses a variable `x` from the list `[4, 2, 3]`, then
-(purely) sets `y` to twice the value of `x`, then "nondeterministically" chooses
-`z` from the list `[1, 2, …, y]`, and finally returns the triple `(x, y, z)`:
+
+1. "Nondeterministically" chooses a variable `x` from the list `[4, 2, 3]`, then
+1. (Purely) sets `y` to twice the value of `x`, then
+1. "Nondeterministically" chooses `z` from the list `[1, 2, …, y]`, and finally
+1. Returns the triple `(x, y, z)`:
 
 ![An example do-notation program using the list monad.](list-monad-ex.png)\
 
