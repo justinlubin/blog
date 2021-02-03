@@ -89,6 +89,7 @@ em, i {
 #blog-footer {
   color: var(--fade-color);
   padding-bottom: var(--wide-spacing);
+  line-height: 1.5;
 }
 
 /* Main */
