@@ -18,17 +18,35 @@ and
 [binding operators in OCaml](https://caml.inria.fr/pub/docs/manual-ocaml/bindingops.html).
 
 I explain more about how this construct works in the rest of this post (along
-with an example), but if you want to mess around with it live, you can do so
+with an example), but if you want to mess around with it live (and see the
+definitions of every block I use), you can do so
 [here](https://snap.berkeley.edu/snap/snap.html#present:Username=justinlubin&ProjectName=monadic-do&editMode&noRun)!
 
 # Implementation
 
-To implement a *monadic do* construct, I had to implement three main features,
-each of which builds off the previous.
+To implement a *monadic do* construct, I had to implement four main features,
+each of which builds off the previous. 
 
-## Feature 1: Functor and Monad Typeclasses
+## Feature 1: Basic Algebraic Data Type Support
 
-First, I introduced blocks that allow for the definition of "anonymous"
+I first introduced an "option" (i.e. nullable) type implemented under-the-hood
+as a singleton list:
+
+::: {.distribute}
+![A missing value.](none.png)
+![A present value (the number 3).](some-3.png)
+:::
+
+I also implemented pattern matching for options and lists:
+
+::: {.distribute}
+![Pattern matching for options.](option-match.png)
+![Pattern matching for lists.](list-match.png)
+:::
+
+## Feature 2: Functor and Monad Typeclasses
+
+Next, I introduced blocks that allow for the definition of "anonymous"
 functor and monad instances:
 
 ::: {.distribute}
@@ -65,9 +83,9 @@ for arbitrary monads:
 :::
 
 Unfortunately, these functions require explicitly passing in the monad as an
-argument. Let's get around that limitation with this next feature!
+argument. Which brings me to...
 
-## Feature 2: Monadic "Using" Notation
+## Feature 3: Monadic "Using" Notation
 
 As the next step toward a nice *monadic do* construct, I introduced a block that
 allows its subexpressions to use a particular monad *implicitly*:
@@ -83,7 +101,7 @@ calls the *pure* function of `current monad` with a given argument:
 ![The *return* operation, which relies on `current monad` from a "using"
 block.](return-def.png)\
 
-## Feature 3: Monadic Let Bindings
+## Feature 4: Monadic Let Bindings
 
 Lastly, I introduced monadic let bindings akin to `x <- mx` in Haskell
 and `let* x = mx in …` in OCaml, which are sugar for the monadic bind operation:
@@ -97,8 +115,8 @@ To implement this block, I used an *upvar*, a surprisingly versatile Snap*!*
 construct that, rather than *consuming* the value of a variable passed in by a
 user, instead *provides* a variable to the user.
 (As an aside, I've found upvars to be a fantastic use of interesting/atypical
-programming language theory tailored to a specific domain that actually improves
-the developer experience.)
+programming language theory tailored to a specific domain that really improves
+developer experience.)
 
 Using an upvar turned out to be a bit tricky in this context because it meant
 that I had to rely on mutation to set this provided variable properly, which is
@@ -115,25 +133,7 @@ Which, in Snap*!*, looks like this:
 ![The *monadic let binding* block definition and
 desugaring.](monadic-let-def.png)\
 
-## Conveniences
-
-To make the *monadic do* syntax more meaningful to work with, I introduced an
-"option" (i.e. nullable) type implemented under-the-hood as a singleton list:
-
-::: {.distribute}
-![A missing value.](none.png)
-![A present value (the number 3).](some-3.png)
-:::
-
-I also implemented pattern matching for options and lists:
-
-::: {.distribute}
-![Pattern matching for options.](option-match.png)
-![Pattern matching for lists.](list-match.png)
-:::
-
-And, finally, I implemented *pure let bindings* to complement monadic let
-bindings:
+As a convenience, I also implemented *pure let bindings* to complement monadic let bindings:
 
 ![The *pure let binding* block.](pure-let.png)\
 

@@ -1,16 +1,16 @@
 /* Variables */
 
 :root {
-  --bg-color: #f2edea;
-  --text-color: #000000;
-  --accent-color: #ab3645;
-  --accent-color-translucent: rgba(171, 54, 69, 0.25);
-  --fade-color: #ada2a4;
-  /* --link-color: #477670; */
+  /* --bg-color: #f2edea; */
+  --bg-color: #fbf9f9;
+  --text-color: #4b4238;
+  --accent-color: #b66033;
+  --fade-color: rgba(0, 0, 0, 0.4);
+  --link-bg: rgba(71, 118, 112, 0.25);
 
   --narrow-spacing: 10px;
-  --normal-spacing: 20px;
-  --wide-spacing: 40px;
+  --normal-spacing: 10px;
+  --wide-spacing: 20px;
 }
 
 /* General */
@@ -27,16 +27,20 @@
   text-size-adjust: none;
 }
 
+html {
+  min-height: 100%;
+  border: 10px solid var(--accent-color);
+}
+
 body {
   color: var(--text-color);
   background-color: var(--bg-color);
 
-  font-family: "EB Garamond", serif;
-  font-size: 18px;
-
-  padding-top: 100px;
+  font-family: "Lora", serif;
+  font-size: 16px;
 
   width: 700px;
+
   margin: auto;
 }
 
@@ -46,7 +50,8 @@ code {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 800;
+  font-family: "Signika", sans-serif;
+  font-weight: 600;
   color: var(--accent-color);
 }
 
@@ -56,7 +61,7 @@ a {
 }
 
 a:hover {
-  background-color: var(--accent-color-translucent);
+  background-color: var(--link-bg);
 }
 
 em, i {
@@ -66,12 +71,12 @@ em, i {
 /* Blog Header */
 
 #blog-header {
-  margin-bottom: var(--wide-spacing);
+  margin: 100px 0;
   text-align: center;
 }
 
 #blog-header h1 {
-  font-size: 3em;
+  font-size: 4em;
   margin-bottom: var(--normal-spacing);
 }
 
@@ -90,7 +95,7 @@ em, i {
 
 main {
   margin-bottom: var(--wide-spacing);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 main header {
@@ -131,18 +136,9 @@ article > * {
   margin-bottom: var(--normal-spacing);
 }
 
-article {
-  text-align: justify;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  -o-hyphens: auto;
-  hyphens: auto;
-}
-
 article h2,
 article h3 {
-  margin-top: var(--normal-spacing);
+  margin-top: var(--wide-spacing);
 }
 
 article h2 {
@@ -156,7 +152,7 @@ article h3 {
 article ul,
 article ol {
   list-style-position: outside;
-  margin-left: 30px;
+  margin-left: 40px;
 }
 
 article ul {
@@ -190,7 +186,7 @@ article blockquote {
 }
 
 article figure {
-  margin: var(--normal-spacing) var(--wide-spacing);
+  margin: var(--wide-spacing);
   text-align: center;
 }
 
@@ -198,6 +194,7 @@ article img {
   max-width: 100%;
   height: auto;
   align-self: center;
+  padding: var(--wide-spacing);
 }
 
 article figcaption {
