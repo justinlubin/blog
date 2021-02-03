@@ -123,6 +123,7 @@ main header time {
 .post-list time {
   flex: 0 0 150px;
   order: 1;
+  align-self: center;
   font-style: italic;
 }
 
