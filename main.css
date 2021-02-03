@@ -125,6 +125,7 @@ main header time {
   order: 1;
   align-self: center;
   font-style: italic;
+  margin-left: 10px;
 }
 
 .post-list a {
@@ -250,6 +251,10 @@ article .distribute p > * {
 
   .post-list li {
     display: block;
+  }
+
+  .post-list time {
+    margin-left: 0;
   }
 
   .post-list a {
