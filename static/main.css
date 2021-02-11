@@ -30,6 +30,7 @@
 
 html {
   border-top: 10px solid var(--accent-color);
+  overflow-x: hidden;
 }
 
 body {
@@ -92,7 +93,6 @@ em, i {
   margin: 150px auto;
   width: 500px;
   height: 500px;
-  padding: 50px;
 
   text-align: center;
 }
@@ -170,6 +170,10 @@ main header time {
 .post-list li {
   display: flex;
   align-items: baseline;
+}
+
+.post-list li:last-child {
+  margin-bottom: var(--wide-spacing);
 }
 
 .post-list time {
@@ -314,6 +318,7 @@ article .distribute p > * {
 
   .post-list li {
     display: block;
+    margin-bottom: var(--wide-spacing);
   }
 
   .post-list time {
@@ -322,17 +327,17 @@ article .distribute p > * {
 
   .post-list a {
     display: block;
-    margin-bottom: var(--narrow-spacing);
   }
 }
 
 @media(max-width: 600px) {
   #blog-header {
-    width: 350px;
-    height: 350px;
+    width: 250px;
+    height: 250px;
   }
 
   #blog-header h1 {
     font-size: 2em;
+    margin-bottom: var(--normal-spacing);
   }
 }
