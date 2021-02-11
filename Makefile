@@ -1,6 +1,9 @@
 all:
 	stack build && stack exec site rebuild
 
+watch:
+	stack exec site watch
+
 clean:
 	stack exec site clean
 
