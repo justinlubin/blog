@@ -90,7 +90,7 @@ em, i {
   justify-content: center;
   position: relative;
 
-  margin: 150px auto;
+  margin: calc(2 * var(--wide-spacing)) auto;
   width: 500px;
   height: 500px;
 
