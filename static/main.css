@@ -29,7 +29,6 @@
 }
 
 html {
-  border-top: 10px solid var(--accent-color);
   overflow-x: hidden;
 }
 
@@ -44,7 +43,7 @@ body {
   color: var(--text-color);
   background-color: var(--bg-color);
 
-  font-family: "Lora", serif;
+  font-family: "Lato", serif;
   font-size: 18px;
 }
 
@@ -55,7 +54,7 @@ code {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Lato", sans-serif;
-  font-weight: 700;
+  font-weight: 900;
   color: var(--accent-color);
 }
 
@@ -74,67 +73,30 @@ em, i {
 
 /* Blog Header */
 
-@keyframes rotate-loop {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 #blog-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-
-  margin: calc(2 * var(--wide-spacing)) auto;
-  width: 500px;
-  height: 500px;
-
-  text-align: center;
+  border-top: 1px dashed var(--fade-color);
+  border-bottom: 1px dashed var(--fade-color);
+  margin: var(--wide-spacing) 0;
 }
-
-  #blog-header::before {
-    content: "";
-    border: 3px dashed var(--link-fg);
-    border-radius: 50%;
-    position: absolute;
-    left: 1%;
-    right: 1%;
-    width: 98%;
-    height: 98%;
-    animation: rotate-loop 60s linear infinite;
-    z-index: -1;
-  }
-
-  #blog-header::after {
-    content: "";
-    border: 3px dotted var(--accent-color);
-    border-radius: 50%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    animation: rotate-loop 120s linear reverse infinite;
-    z-index: -1;
-  }
 
 #blog-header h1 {
-  font-size: 3.5em;
-  margin-bottom: var(--wide-spacing);
+  font-size: 3em;
+  margin: var(--wide-spacing) 0;
 }
 
 #blog-header p {
-  font-style: italic;
+  margin-bottom: var(--wide-spacing);
 }
 
 #blog-header h1 a {
   color: inherit;
+  background-color: inherit;
+  text-decoration: none;
 }
+
+  #blog-header h1 a:hover {
+    text-decoration: underline;
+  }
 
 /* Blog Footer */
 
@@ -153,7 +115,6 @@ main {
 
 main header {
   margin-bottom: var(--wide-spacing);
-  text-align: center;
 }
 
 main header h1 {
@@ -192,10 +153,6 @@ main header time {
 }
 
 /* Article */
-
-article {
-  text-align: justify;
-}
 
 article > * {
   margin-bottom: var(--normal-spacing);
@@ -307,15 +264,6 @@ article .distribute p > * {
     padding-right: 50px;
   }
 
-  #blog-header {
-    width: 400px;
-    height: 400px;
-  }
-
-  #blog-header h1 {
-    font-size: 2.5em;
-  }
-
   .post-list li {
     display: block;
     margin-bottom: var(--wide-spacing);
@@ -327,17 +275,5 @@ article .distribute p > * {
 
   .post-list a {
     display: block;
-  }
-}
-
-@media(max-width: 600px) {
-  #blog-header {
-    width: 250px;
-    height: 250px;
-  }
-
-  #blog-header h1 {
-    font-size: 2em;
-    margin-bottom: var(--normal-spacing);
   }
 }
